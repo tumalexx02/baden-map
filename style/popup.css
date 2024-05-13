@@ -1,18 +1,21 @@
 .popup {
   position: absolute;
-  left: 50%;
+  right: 3vw;
   top: 50%;
-  transform: translate(-50%, -50%);
   width: 80%;
-  max-width: 664px;
+  transform: translateY(-50%);
+  max-width: 300px;
   height: auto;
   background-color: #fff;
   border-radius: 10px;
   border: solid 1px #1866A6;
   overflow: hidden;
   z-index: 1000;
-  /* pointer-events: none; */
-  display: none;
+  transition: right 0.5s;
+}
+
+.popup_hidden {
+  right: calc(-300px);
 }
 
 .popup__info {
