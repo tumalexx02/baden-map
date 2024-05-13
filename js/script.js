@@ -2,6 +2,7 @@
 const floors_buttons = document.querySelectorAll(".map__floor");
 const placeholder = document.querySelector(".map__placeholder");
 const buttonsWrapper = document.querySelector(".map__buttons-wrapper");
+const popup = document.querySelector(".popup")
 
 // Variables to manage state
 let isHighlighted = false;
@@ -39,24 +40,27 @@ async function loadAndDisplayFloors() {
   document.querySelectorAll('.color-loc, g').forEach(function(paths) {
     paths.addEventListener('mouseenter', function() {
       if (!isHighlighted && !isMobile) {
-        showPopup(this);
+        // showPopup(this);
 
         highlightOnHover(this);
       };
     });
   
-    paths.addEventListener('mouseleave', function(e) {
-      const popup = placeholder.querySelector('.popup');
+    paths.addEventListener('click', function() {
       if (!isHighlighted && !isMobile) {
-        if ((!popup || !popup.contains(e.relatedTarget))) {
-          hidePopup();
-          removeHighlight();
+        showPopup(this);
+        isHighlighted = true;
+        if (element.tagName === 'path') {
+          highlightLocation(element.parentNode.classList[0]);
         } else {
-          popup.addEventListener('mouseleave', function() {
-            hidePopup();
-            removeHighlight();
-          });
+          highlightLocation(element.classList[0]);
         }
+      }
+    })
+
+    paths.addEventListener('mouseleave', function() {
+      if (!isHighlighted && !isMobile) {
+          removeHighlight();
       } 
     });
   });
@@ -81,7 +85,7 @@ function highlightLocation(id) {
     path.classList.remove('highlighted');
   })
   placeholder.querySelector('svg.active').querySelectorAll("g").forEach(g => {
-    hidePopup(g);
+    hidePopup();
     !g.classList.contains('contour') && !g.classList.contains(id) && g.classList.add('faded');
   });
   
@@ -192,117 +196,68 @@ function createButton(id, title) {
 
 // Function to show popup for the hovered element
 async function showPopup(element) {
-  const popup = document.createElement('div');
-  popup.className = 'popup';
+  
+  let newId;
   if (element.tagName === 'path') {
-    popup.id = element.parentNode.classList[0];
+    newId = element.parentNode.classList[0];
   } else {
-    popup.id = element.classList[0];
+    newId = element.classList[0];
   }
-  placeholder.appendChild(popup);
+  
+  !isThisPopup(newId) && updateActiveButton(newId)
+  
+  !isThisPopup(newId) && setTimeout(async () => {
+    popup.id = newId
 
-  const response = await fetch(`jsons/popups.json`);
-  const json = await response.json();
-  const innerContent = Object.entries(json[popup.id]);
+    const response = await fetch(`jsons/popups.json`);
+    const json = await response.json();
+    const innerContent = Object.entries(json[popup.id]);
+  
+    popup.querySelector(".popup__img").querySelector("img").setAttribute("src", `img/popups/${popup.id}.webp`)
+    popup.querySelector(".popup__info").innerHTML = innerContent[0][1]
 
-  const inside = `
-    <div class="popup__info">
-      ${innerContent[0][1]}
-    </div>
-    <div class="popup__img">
-      <button class="popup__close">×</button>
-      <img src="${innerContent[1][1]}" alt="${popup.id}-img">
-    </div>
-  `;
+    popup.classList.remove("popup_hidden")
+  }, 500);
+  // if (element.tagName === 'path') {
+  //   popup.id = element.parentNode.classList[0];
+  // } else {
+  //   popup.id = element.classList[0];
+  // }
 
-  popup.style.display = 'flex';
-  // const inside = await `
-  // <div class="popup__info">
-  //     <div class="popup__p">
-  //       <span>Бассейн:</span> 20 метров.
-  //     </div>
-  //     <br>
-  //     <div class="popup__p">
-  //       <span>Длина дорожки:</span> 10 метров.
-  //     </div>
-  //     <br>
-  //     <div class="popup__p">
-  //       На территории бассейна находится кафе, с возможностю купить коктейль или заказать чашку чая.
-  //     </div>
-  //     <a href="/" class="popup__button">Подробнее</a>
-  //   </div>
-  //   <div class="popup__img">
-  //     <button class="popup__close">×</button>
-  //     <img src="img/pool.png" alt="pool">
-  //   </div>
-  // `;
+  // const response = await fetch(`jsons/popups.json`);
+  // const json = await response.json();
+  // const innerContent = Object.entries(json[popup.id]);
 
-  popup.innerHTML = inside;
+  // popup.querySelector(".popup__img").querySelector("img").setAttribute("src", `img/popups/${popup.id}.webp`)
+  // popup.querySelector(".popup__info").innerHTML = innerContent[0][1]
 
-  let rect;
-  let placeholderRect = document.querySelector(".map__placeholder").getBoundingClientRect();
-
-  const popupWidth = popup.offsetWidth;
-  const popupHeight = popup.offsetHeight;
-
-  if (element.tagName === 'path') {
-    rect = element.parentNode.getBoundingClientRect();
-  } else {
-    rect = element.getBoundingClientRect();
-  }
-
-  const rectMid = {
-    w: rect.left + rect.width/2,
-    h: rect.top + rect.height/2
-  }
-
-  if (isMobile) {
-    popup.style.marginTop = `${placeholderRect.height + 30}px`;
-    placeholder.style.height = `${placeholderRect.height + popupHeight*2 + 30}px`;
-  } else {
-    if (rectMid.w < (placeholderRect.width/2 + placeholderRect.left)) {
-      const leftPoint = rectMid.w - placeholderRect.left + popupWidth/2;
-
-      if ((leftPoint + placeholderRect.left + popupWidth) >= placeholderRect.right) {
-        popup.style.left = `${leftPoint}px`;
-      } else {
-        popup.style.left = `${placeholder.left + placeholderRect.width - popupWidth}px`;
-      }
-    } else {
-
-      const leftPoint = rectMid.w - placeholderRect.left - popupWidth/2;
-
-      if ((leftPoint + placeholderRect.left - popupWidth/2) >= placeholderRect.left) {
-        popup.style.left = `${leftPoint}px`;
-      } else {
-        popup.style.left = `${popupWidth/2}px`;
-      }
-
-    }
-
-    if (rectMid.h < (placeholderRect.height/2 + placeholderRect.top)) {
-      popup.style.top = `${rectMid.h - placeholderRect.top + popupHeight/2}px`;
-    } else {
-      popup.style.top = `${rectMid.h - placeholderRect.top - popupHeight/2}px`;
-    }
-  }
-
-  popup.addEventListener('mouseenter', function() {
-      highlightOnHover(element);
-  });
-
-  popup.querySelector('.popup__close').addEventListener('click', function() {
-    hidePopup();
-    !isHighlighted && removeHighlight();
-    isMobile && updatePlaceholderHeight();
-  });
+  // popup.addEventListener('mouseenter', function() {
+  //     highlightOnHover(element);
+  // });
 }
+
+popup.querySelector('.popup__close').addEventListener('click', function() {
+  hidePopup();
+  !isHighlighted && removeHighlight();
+  isMobile && updatePlaceholderHeight();
+});
 
 // Function to hide any displayed popup
 function hidePopup() {
-  const popup = placeholder.querySelector('.popup');
-  if (popup) {
-    popup.remove();
-    isMobile && updatePlaceholderHeight();
-  }
+  popup.classList.add('popup_hidden')
+  popup.id = ""
+  isHighlighted = false
+  const buttons = buttonsWrapper.querySelectorAll('.map__button');
+  buttons.forEach(button => button.classList.remove('map__button_active'));
+  buttons[0].classList.add('map__button_active');
+}
+
+function isThisPopup(id) {
+  return id === popup.id
+}
+
+function updateActiveButton(newId) {
+  const buttons = buttonsWrapper.querySelectorAll('.map__button');
+  buttons.forEach(button => button.classList.remove('map__button_active'));
+  buttonsWrapper.querySelector(`#${newId}`).classList.add('map__button_active');
 }
