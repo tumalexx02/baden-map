@@ -1,0 +1,138 @@
+.map {
+  padding: 38px 0 103px;
+}
+
+.map__floors {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
+  align-items: center;
+  gap: 90px;
+}
+
+.map__floor {
+  position: relative;
+  height: 103px;
+  padding: 0 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid 1px #57A1D6;
+  cursor: pointer;
+}
+
+.map__floor_active {
+  height: none;
+}
+
+.map__floor_active > .map__floor-num {
+  position: relative;
+  font-weight: 200;
+  font-size: 40px;
+  color: #000;
+  left: 0;
+  top: 0;
+  transform: translate(0, 0);
+  margin-right: 48px;
+}
+
+.map__floor_active > .map__floor-title {
+  font-weight: 200;
+  font-size: 40px;
+  color: #000;
+}
+
+.map__floor-num {
+  font-size: 77px;
+  line-height: 118%;
+  font-weight: 500;
+  color: #DCDCDC;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.map__floor-title {
+  position: relative;
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  font-size: 13px;
+  line-height: 118%;
+  letter-spacing: 15%;
+  font-weight: 300;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.map__wrapper {
+  min-width: 100%;
+  margin-top: 90px;
+  display: flex;
+  gap: 30px;
+}
+
+.map__buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 200px;
+}
+
+.map__button {
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  border: solid 0.5px #000;
+  background-color: #fff;
+}
+
+.map__button > span {
+  pointer-events: none;
+  font-size: 25px;
+  margin: 3px;
+  color: #484848;
+  display: inline-block;
+  vertical-align: middle;
+  width: calc(100% - 6px);
+  line-height: 54px;
+  border: solid 0.5px #000;
+  word-break: break-all; 
+}
+
+.map__button.lots-of-letters > span {
+  font-size: 20px;
+}
+
+.map__button_active {
+  background-color: #1866A6;
+  border: none;
+}
+
+.map__button_active > span {
+  color: #fff;
+  border: solid 0.5px #fff;
+}
+
+.map__placeholder {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+}
+
+.map__placeholder > svg {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s;
+}
+
+.map__placeholder > svg.active {
+  opacity: 1;
+  z-index: 10;
+}
