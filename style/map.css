@@ -90,15 +90,16 @@
 
 .map__button > span {
   pointer-events: none;
-  font-size: 25px;
+  font-size: 1.25rem;
   margin: 3px;
   color: #484848;
   display: inline-block;
   vertical-align: middle;
+  text-align: center;
   width: calc(100% - 6px);
   line-height: 54px;
   border: solid 0.5px #000;
-  word-break: break-all; 
+  /* word-break: break-all;  */
 }
 
 .map__button.lots-of-letters > span {
