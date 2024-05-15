@@ -47,6 +47,10 @@ g.faded > path {
 }
 
 @media (max-width: 1199px) {
+  .popup {
+    max-width: 100vw;
+    right: 0;
+  }
   .popup__info {
     padding: 8px;
   }
