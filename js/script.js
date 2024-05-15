@@ -85,7 +85,7 @@ function highlightLocation(id) {
     path.classList.remove('highlighted');
   })
   placeholder.querySelector('svg.active').querySelectorAll("g").forEach(g => {
-    hidePopup();
+    // hidePopup();
     !g.classList.contains('contour') && !g.classList.contains(id) && g.classList.add('faded');
   });
   
@@ -94,6 +94,7 @@ function highlightLocation(id) {
     isHighlighted = false;
     removeHighlight();
     turnOnHover();
+    hidePopup();
   } else {
     isHighlighted = true;
     turnOffHover();
@@ -160,6 +161,7 @@ window.addEventListener('resize', () => {
   placeholder.querySelectorAll("path").forEach(path => path.classList.remove('highlighted'))
   updatePlaceholderHeight();
   isHighlighted = false;
+  removeHighlight();
   hidePopup();
   const buttons = buttonsWrapper.querySelectorAll('.map__button');
   buttons.forEach(button => button.classList.remove('map__button_active'));
@@ -204,20 +206,32 @@ async function showPopup(element) {
     newId = element.classList[0];
   }
   
-  !isThisPopup(newId) && updateActiveButton(newId)
-  
-  !isThisPopup(newId) && setTimeout(async () => {
-    popup.id = newId
+  if (!isThisPopup(newId)) {
+    updateActiveButton(newId);
+  }
+  popup.id = newId
 
-    const response = await fetch(`jsons/popups.json`);
-    const json = await response.json();
-    const innerContent = Object.entries(json[popup.id]);
-  
-    popup.querySelector(".popup__img").querySelector("img").setAttribute("src", `img/popups/${popup.id}.webp`)
-    popup.querySelector(".popup__info").innerHTML = innerContent[0][1]
+  fetch(`jsons/popups.json`)
+    .then(response => response.json())
+    .then(json => {
+      !isThisPopup(newId) && popup.classList.add("popup_hidden");
 
-    popup.classList.remove("popup_hidden")
-  }, 500);
+      const innerContent = Object.entries(json[popup.id]);
+
+      const imgElement = popup.querySelector(".popup__img img");
+      const infoElement = popup.querySelector(".popup__info");
+
+      imgElement.setAttribute("src", `img/popups/${popup.id}.webp`);
+
+      imgElement.onload = () => {
+        infoElement.innerHTML = innerContent[0][1];
+        popup.classList.remove("popup_hidden");
+      }
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  };
   // if (element.tagName === 'path') {
   //   popup.id = element.parentNode.classList[0];
   // } else {
@@ -234,11 +248,12 @@ async function showPopup(element) {
   // popup.addEventListener('mouseenter', function() {
   //     highlightOnHover(element);
   // });
-}
+
 
 popup.querySelector('.popup__close').addEventListener('click', function() {
   hidePopup();
   !isHighlighted && removeHighlight();
+  turnOnHover();
   isMobile && updatePlaceholderHeight();
 });
 
