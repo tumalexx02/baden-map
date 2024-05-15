@@ -252,8 +252,6 @@ async function showPopup(element) {
 
 popup.querySelector('.popup__close').addEventListener('click', function() {
   hidePopup();
-  !isHighlighted && removeHighlight();
-  turnOnHover();
   isMobile && updatePlaceholderHeight();
 });
 
@@ -262,6 +260,8 @@ function hidePopup() {
   popup.classList.add('popup_hidden')
   popup.id = ""
   isHighlighted = false
+  removeHighlight();
+  turnOnHover();
   const buttons = buttonsWrapper.querySelectorAll('.map__button');
   buttons.forEach(button => button.classList.remove('map__button_active'));
   buttons[0].classList.add('map__button_active');
