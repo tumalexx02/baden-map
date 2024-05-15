@@ -1,4 +1,6 @@
 .popup {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   right: 3vw;
   bottom: 50%;
@@ -16,11 +18,13 @@
 
 .popup_hidden {
   opacity: 0;
+  pointer-events: none;
   /* right: calc(-300px); */
 }
 
 .popup__info {
   flex: 1 1 60%;
+  align-self: center;
   width: 100%;
   padding: 20px;
 }
@@ -60,7 +64,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-left: solid 1px #1866A6;
+  border-bottom: solid 1px #1866A6;
 }
 
 .popup__close {
