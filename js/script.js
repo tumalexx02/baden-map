@@ -36,6 +36,8 @@ async function loadAndDisplayFloors() {
     removeHighlight();
   }));
 
+  updateButtons(1)
+
   // Setup hover events for color-coded locations
   document.querySelectorAll('.color-loc, g').forEach(function(paths) {
     paths.addEventListener('mouseenter', function() {
