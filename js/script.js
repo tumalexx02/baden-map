@@ -184,7 +184,7 @@ async function updateButtons(floorNum) {
 
   for (const [key, value] of Object.entries(json)) {
     const newButton = createButton(key, value);
-    value.length > 12 && newButton.classList.add("lots-of-letters");
+    value.length > 10 && newButton.classList.add("lots-of-letters");
     buttonsWrapper.appendChild(newButton);
   }
 }
