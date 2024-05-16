@@ -32,7 +32,7 @@
 .popup__p {
   font-size: 21px;
   line-height: 112%;
-  font-weight: 100;
+  font-weight: 200;
   margin-bottom: 10px;
 }
 
@@ -44,17 +44,29 @@
 .popup__button {
   text-align: center;
   display: block;
-  width: 150px;
-  font-size: 21px;
+  width: 130px;
+  font-size: 1rem;
   padding: 12px;
-  background-color: #1866A6;
+  background-color: #1866a600;
+  border: solid 1px #1866a6;
   line-height: 112%;
   border-radius: 5px;
   text-decoration: none;
-  color: #fff;
-  font-weight: 100;
+  color: #000;
+  font-weight: 200;
   margin: 5px auto 0;
   pointer-events: auto;
+  transition: color 0.1s;
+}
+
+.popup__button:hover {
+  background-color: #1866a6bc;
+  color: #fff;
+}
+
+.popup__button:active {
+  background-color: #1866a6;
+  color: #fff;
 }
 
 .popup__img {
