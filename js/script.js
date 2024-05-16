@@ -223,7 +223,9 @@ async function showPopup(element) {
       const imgElement = popup.querySelector(".popup__img img");
       const infoElement = popup.querySelector(".popup__info");
 
-      imgElement.setAttribute("src", `img/popups/${popup.id}.webp`);
+      console.log(newId.slice(0, -2))
+
+      imgElement.setAttribute("src", newId.includes('office') || newId.includes('park') || newId.includes('apart') || newId.includes('shops') ? `img/popups/${newId.slice(0, -2)}.webp` : `img/popups/${popup.id}.webp`);
 
       imgElement.onload = () => {
         infoElement.innerHTML = innerContent[0][1];
