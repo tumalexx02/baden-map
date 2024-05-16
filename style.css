@@ -98,10 +98,10 @@ g.faded > path {
   }
   .map__button > span {
   line-height: 20px;
-  font-size: 8px;
+  font-size: 0.5rem;
   }
   .map__button.lots-of-letters > span {
-    font-size: 8px;
+    font-size: 0.3rem;
   }
   .map__floor {
     height: 46px;
