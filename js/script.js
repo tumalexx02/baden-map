@@ -29,7 +29,6 @@ async function loadAndDisplayFloors() {
   // Setup event listeners for floor buttons
   floors_buttons.forEach((floorbtn, index) => floorbtn.addEventListener("click", () => {
     hidePopup();
-    turnOnHover();
     isHighlighted = false;
     updateButtons(index + 1);
     setActiveFloorAndHeight(index + 1);
@@ -41,10 +40,8 @@ async function loadAndDisplayFloors() {
   // Setup hover events for color-coded locations
   document.querySelectorAll('.color-loc, g').forEach(function(paths) {
     paths.addEventListener('mouseenter', function() {
-      if (!isHighlighted && !isMobile) {
-        // showPopup(this);
-
-        highlightOnHover(this);
+      if (!isMobile) {
+        highlightLocation(this);
       };
     });
   
@@ -52,17 +49,15 @@ async function loadAndDisplayFloors() {
       if (!isHighlighted && !isMobile) {
         showPopup(this);
         isHighlighted = true;
-        if (element.tagName === 'path') {
-          highlightLocation(element.parentNode.classList[0]);
-        } else {
-          highlightLocation(element.classList[0]);
-        }
+      } else if (!isMobile && isHighlighted) {
+        showPopup(this);
+        removeHighlight();
       }
     })
 
     paths.addEventListener('mouseleave', function() {
-      if (!isHighlighted && !isMobile) {
-          removeHighlight();
+      if (!isMobile) {
+          removeHighlight(this);
       } 
     });
   });
@@ -76,7 +71,22 @@ async function loadAndDisplayFloors() {
       buttons.forEach(button => button.classList.remove('map__button_active'));
       event.target.classList.add('map__button_active');
 
-      highlightLocation(event.target.getAttribute('id'))
+      const id = event.target.getAttribute('id');
+      console.log(id)
+      const element = placeholder.querySelector('svg.active').querySelector(`g.${id}`)
+      console.log(element)
+      highlightLocation(element)
+
+      if (id.includes('all')) {
+        isHighlighted = false;
+
+        hidePopup();
+      } else {
+        isHighlighted = true;
+    
+        showPopup(placeholder.querySelector(`g.${id}`));
+      }
+      removeHighlight();
     }
   });
 }
@@ -87,7 +97,6 @@ function highlightLocation(id) {
     path.classList.remove('highlighted');
   })
   placeholder.querySelector('svg.active').querySelectorAll("g").forEach(g => {
-    // hidePopup();
     !g.classList.contains('contour') && !g.classList.contains(id) && g.classList.add('faded');
   });
   
@@ -95,11 +104,9 @@ function highlightLocation(id) {
   if (id.includes('all')) {
     isHighlighted = false;
     removeHighlight();
-    turnOnHover();
     hidePopup();
   } else {
     isHighlighted = true;
-    turnOffHover();
 
     placeholder.querySelector(`g.${id}`).classList.add('highlighted');
 
@@ -107,25 +114,43 @@ function highlightLocation(id) {
   }
 }
 
-function highlightOnHover(element) {
-  if (element.tagName === "g") {
-    element.classList.add('highlighted');
-    placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
-      !g.classList.contains('contour') && !g.classList.contains(element.classList[0]) && g.classList.add('faded');
-    })
+function highlightLocation(element) {
+  if (!isHighlighted) {
+    if (element.tagName === "g") {
+      element.classList.add('highlighted');
+      placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
+        !g.classList.contains('contour') && !g.classList.contains(element.classList[0]) && g.classList.add('faded');
+      })
+    } else {
+      element.parentNode.classList.add('highlighted');
+      placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
+        !g.classList.contains('contour') && !g.classList.contains(element.parentNode.classList[0]) && g.classList.add('faded');
+      })
+    }
   } else {
-    element.parentNode.classList.add('highlighted');
-    placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
-      !g.classList.contains('contour') && !g.classList.contains(element.parentNode.classList[0]) && g.classList.add('faded');
-    })
+    if (element.tagName === "g") {
+      element.classList.remove('faded');
+      element.classList.add('highlighted');
+    } else {
+      element.parentNode.classList.remove('faded');
+      element.parentNode.classList.add('highlighted');
+    }
   }
 }
 
 function removeHighlight() {
-  placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
-    !g.classList.contains('contour') && g.classList.remove('faded');
-    !g.classList.contains('contour') && g.classList.remove('highlighted');
-  })
+  if (!isHighlighted) {
+    placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
+      !g.classList.contains('contour') && g.classList.remove('faded');
+      !g.classList.contains('contour') && g.classList.remove('highlighted');
+    })
+  } else {
+    const activeId = popup.getAttribute('id');
+    placeholder.querySelector('.active').querySelectorAll("g").forEach(g => {
+      !g.classList.contains('contour') && !g.classList.contains(activeId) && g.classList.add('faded');
+      !g.classList.contains('contour') && !g.classList.contains(activeId) && g.classList.remove('highlighted');
+    });
+  }
 }
 
 // Function to activate a specific floor and adjust its appearance
@@ -136,16 +161,6 @@ function setActiveFloorAndHeight(floorNum) {
   floors_buttons.forEach(btn => btn.classList.remove("map__floor_active"));
   floors_buttons[floorNum - 1].classList.add("map__floor_active");
   updatePlaceholderHeight();
-}
-
-// Function to disable hover effects
-function turnOffHover() {
-  placeholder.querySelectorAll("svg").forEach(svg => svg.style.pointerEvents = 'none');
-}
-
-// Function to enable hover effects
-function turnOnHover() {
-  placeholder.querySelectorAll("svg").forEach(svg => svg.style.pointerEvents = 'auto');
 }
 
 // Function to update the height of the placeholder based on the active SVG
@@ -223,8 +238,6 @@ async function showPopup(element) {
       const imgElement = popup.querySelector(".popup__img img");
       const infoElement = popup.querySelector(".popup__info");
 
-      console.log(newId.slice(0, -2))
-
       imgElement.setAttribute("src", newId.includes('office') || newId.includes('park') || newId.includes('apart') || newId.includes('shops') ? `img/popups/${newId.slice(0, -2)}.webp` : `img/popups/${popup.id}.webp`);
 
       imgElement.onload = () => {
@@ -236,23 +249,6 @@ async function showPopup(element) {
       console.log(error)
     })
   };
-  // if (element.tagName === 'path') {
-  //   popup.id = element.parentNode.classList[0];
-  // } else {
-  //   popup.id = element.classList[0];
-  // }
-
-  // const response = await fetch(`jsons/popups.json`);
-  // const json = await response.json();
-  // const innerContent = Object.entries(json[popup.id]);
-
-  // popup.querySelector(".popup__img").querySelector("img").setAttribute("src", `img/popups/${popup.id}.webp`)
-  // popup.querySelector(".popup__info").innerHTML = innerContent[0][1]
-
-  // popup.addEventListener('mouseenter', function() {
-  //     highlightOnHover(element);
-  // });
-
 
 popup.querySelector('.popup__close').addEventListener('click', function() {
   hidePopup();
@@ -265,7 +261,6 @@ function hidePopup() {
   popup.id = ""
   isHighlighted = false
   removeHighlight();
-  turnOnHover();
   const buttons = buttonsWrapper.querySelectorAll('.map__button');
   buttons.forEach(button => button.classList.remove('map__button_active'));
   buttons[0].classList.add('map__button_active');
