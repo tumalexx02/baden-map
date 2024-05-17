@@ -72,16 +72,16 @@ async function loadAndDisplayFloors() {
       event.target.classList.add('map__button_active');
 
       const id = event.target.getAttribute('id');
-      console.log(id)
-      const element = placeholder.querySelector('svg.active').querySelector(`g.${id}`)
-      console.log(element)
-      highlightLocation(element)
 
-      if (id.includes('all')) {
+      if (id.slice(0, -2) === 'all') {
         isHighlighted = false;
 
         hidePopup();
       } else {
+        const element = placeholder.querySelector('svg.active').querySelector(`g.${id}`)
+
+        highlightLocation(element)
+
         isHighlighted = true;
     
         showPopup(placeholder.querySelector(`g.${id}`));
@@ -92,28 +92,6 @@ async function loadAndDisplayFloors() {
 }
 
 // Function to handle location highlighting
-function highlightLocation(id) {
-  placeholder.querySelector('svg.active').querySelectorAll("path").forEach(path => {
-    path.classList.remove('highlighted');
-  })
-  placeholder.querySelector('svg.active').querySelectorAll("g").forEach(g => {
-    !g.classList.contains('contour') && !g.classList.contains(id) && g.classList.add('faded');
-  });
-  
-  // Switch between hover mode and highlighted mode
-  if (id.includes('all')) {
-    isHighlighted = false;
-    removeHighlight();
-    hidePopup();
-  } else {
-    isHighlighted = true;
-
-    placeholder.querySelector(`g.${id}`).classList.add('highlighted');
-
-    showPopup(placeholder.querySelector(`g.${id}`));
-  }
-}
-
 function highlightLocation(element) {
   if (!isHighlighted) {
     if (element.tagName === "g") {
