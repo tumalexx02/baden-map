@@ -89,15 +89,15 @@ g.faded > path {
     max-width: 100%;
     display: grid;
     align-items: center;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
   .map__button > span {
-  line-height: 20px;
-  font-size: 0.5rem;
+  line-height: 1.4rem;
+  font-size: 0.85rem;
   }
   .map__button.lots-of-letters > span {
-    font-size: 0.3rem;
+    font-size: 0.6rem;
   }
   .map__floor {
     height: 46px;
