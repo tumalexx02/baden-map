@@ -13,7 +13,7 @@ let floors = [];
 // Function to load and display SVG floors
 async function loadAndDisplayFloors() {
   // Load each floor's SVG and append to the placeholder
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 5; i++) {
     const response = await fetch(`svg/floor${i}.svg`);
     const text = await response.text();
     const svg = document.createElement("div");
