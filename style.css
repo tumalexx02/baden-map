@@ -79,7 +79,7 @@ g.faded > path {
 
 @media (max-width: 767px) and (orientation: portrait) {
   .map__floors {
-    gap: 39px;
+    gap: 18px;
   }
   .map__wrapper {
     flex-direction: column;
