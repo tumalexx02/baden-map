@@ -118,6 +118,9 @@ g.faded > path {
   .map__floor_active > .map__floor-title {
     font-size: 16px;
   }
+  .map__floor_active > .map__floor-title > span {
+    font-size: 10px;
+  }  
   .popup {
     flex-direction: column;
   }

@@ -42,6 +42,19 @@
   color: #000;
 }
 
+.map__floor_active > .map__floor-title > span {
+  position: absolute;
+  left: -50%;
+  transform: translateX(50%);
+  text-align: center;
+  top: 125%;
+  font-weight: 200;
+  font-size: 20px;
+  color: #000;
+  line-height: 120%;
+}
+
+
 .map__floor-num {
   font-size: 77px;
   line-height: 118%;
@@ -56,6 +69,7 @@
 
 .map__floor-title {
   position: relative;
+  text-align: center;
   /* top: 50%; */
   /* transform: translateY(-50%); */
   font-size: 13px;
