@@ -1,8 +1,4 @@
 {
-  "slides": "Средиземноморье",
-  "swimming-pool": "Термаль", 
-  "bathhouse": "Бани",
-  "restaurant": "Ресторан",
-  "beer": "Пивоварня",
-  "relax-zone": "Джунгли"
+  "street-pool": "Бассейн",
+  "street-baths": "Бани"
 }
