@@ -38,7 +38,7 @@
 }
 
 g.highlighted > .main-color {
-  filter: saturate(6);
+  filter: saturate(4);
 }
 
 g.faded > path {
@@ -103,6 +103,9 @@ g.faded > path {
     height: 46px;
     padding: 0 6px;
   }
+  .map__floor_active {
+    height: 40px;
+  }
   .map__floor-num {
     font-size: 36px;
     line-height: 118%;
@@ -120,6 +123,7 @@ g.faded > path {
   }
   .map__floor_active > .map__floor-title > span {
     font-size: 10px;
+    top: 175%;
   }  
   .popup {
     flex-direction: column;

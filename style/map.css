@@ -22,12 +22,12 @@
 }
 
 .map__floor_active {
-  height: none;
+  height: 80px;
 }
 
 .map__floor_active > .map__floor-num {
   position: relative;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 40px;
   color: #000;
   left: 0;
@@ -37,17 +37,24 @@
 }
 
 .map__floor_active > .map__floor-title {
-  font-weight: 200;
+  font-weight: 300;
   font-size: 40px;
   color: #000;
 }
 
+.map__floor-title > span {
+  display: block;
+  margin-top: 5px;
+}
+
 .map__floor_active > .map__floor-title > span {
+  display: inline-block;
+  margin: 0;
   position: absolute;
   left: -50%;
   transform: translateX(50%);
   text-align: center;
-  top: 125%;
+  top: 150%;
   font-weight: 200;
   font-size: 20px;
   color: #000;
