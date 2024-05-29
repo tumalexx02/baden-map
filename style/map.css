@@ -33,7 +33,7 @@
   left: 0;
   top: 0;
   transform: translate(0, 0);
-  margin-right: 48px;
+  margin-right: 32px;
 }
 
 .map__floor_active > .map__floor-title {
@@ -51,7 +51,7 @@
   display: inline-block;
   margin: 0;
   position: absolute;
-  left: -50%;
+  left: -35%;
   transform: translateX(50%);
   text-align: center;
   top: 150%;

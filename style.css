@@ -116,7 +116,7 @@ g.faded > path {
   }
   .map__floor_active > .map__floor-num {
     font-size: 16px;
-    margin-right: 20px;
+    margin-right: 12px;
   }
   .map__floor_active > .map__floor-title {
     font-size: 16px;
@@ -124,6 +124,7 @@ g.faded > path {
   .map__floor_active > .map__floor-title > span {
     font-size: 10px;
     top: 175%;
+    left: -50%;
   }  
   .popup {
     flex-direction: column;
