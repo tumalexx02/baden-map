@@ -158,3 +158,29 @@
   opacity: 1;
   z-index: 10;
 }
+
+.maplabel {
+  opacity: 0;
+  transition: 0.3s ease;
+  pointer-events: none;
+}
+
+.maplabel.active {
+  opacity: 1;
+}
+
+#contour {
+  pointer-events: none;
+}
+
+.colorloc {
+  cursor: pointer;
+}
+
+.colorloc * {
+  transition: fill-opacity 0.3s ease;
+}
+
+.colorloc:hover * {
+  fill-opacity: 0.5 !important;
+}
