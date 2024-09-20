@@ -26,7 +26,7 @@ async function loadAndDisplayFloors() {
   }
 
   // Initialize the display with the first floor
-  setActiveFloorAndHeight(2);
+  setActiveFloorAndHeight(1);
 
   // Setup event listeners for floor buttons
   floors_buttons.forEach((floorbtn, index) => floorbtn.addEventListener("click", () => {
