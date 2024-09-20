@@ -29,24 +29,26 @@ async function loadAndDisplayFloors() {
   setActiveFloorAndHeight(1);
 
   // Setup event listeners for floor buttons
-  floors_buttons.forEach((floorbtn, index) => floorbtn.addEventListener("click", () => {
-    // hidePopup();
-    isHighlighted = false;
-    // updateButtons(index);
-    setActiveFloorAndHeight(index + 1);
-    removeHighlight();
-  }));
+  floors_buttons.forEach((floorbtn, index) =>
+    floorbtn.addEventListener("click", () => {
+      // hidePopup();
+      isHighlighted = false;
+      // updateButtons(index);
+      setActiveFloorAndHeight(index + 1);
+      removeHighlight();
+    }),
+  );
 
   // updateButtons(0)
 
   // Setup hover events for color-coded locations
   colorlocs.forEach((cl) => {
-    cl.addEventListener('mouseenter', function() {
+    cl.addEventListener("mouseenter", function () {
       if (!isMobile) {
         highlightLocation(cl);
-      };
+      }
     });
-  
+
     // paths.addEventListener('click', function() {
     //   if (!isHighlighted && !isMobile) {
     //     showPopup(this);
@@ -57,10 +59,10 @@ async function loadAndDisplayFloors() {
     //   }
     // })
 
-    cl.addEventListener('mouseleave', function() {
+    cl.addEventListener("mouseleave", function () {
       if (!isMobile) {
-          removeHighlight(cl);
-      } 
+        removeHighlight(cl);
+      }
     });
   });
 
@@ -85,7 +87,7 @@ async function loadAndDisplayFloors() {
   //       highlightLocation(element)
 
   //       isHighlighted = true;
-    
+
   //       showPopup(placeholder.querySelector(`g.${id}`));
   //     }
   //     removeHighlight();
@@ -119,7 +121,7 @@ function highlightLocation(cl) {
 
   const id = cl.id;
   const label = labels.querySelector(`#${id}-label`);
-  label.classList.add('active');
+  label.classList.add("active");
 }
 
 function removeHighlight(cl) {
@@ -137,17 +139,17 @@ function removeHighlight(cl) {
   // }
   const id = cl.id;
   const label = labels.querySelector(`#${id}-label`);
-  label.classList.remove('active');
+  label.classList.remove("active");
 }
 
 // Function to activate a specific floor and adjust its appearance
 function setActiveFloorAndHeight(floorNum) {
-  floors.forEach(node => node.classList.remove("active"));
+  floors.forEach((node) => node.classList.remove("active"));
   activeFloor = floors[floorNum - 1];
   activeFloor.classList.add("active");
-  labels = activeFloor.querySelector('#labels');
-  colorlocs = document.querySelectorAll('.colorloc');
-  floors_buttons.forEach(btn => btn.classList.remove("map__floor_active"));
+  labels = activeFloor.querySelector("#labels");
+  colorlocs = document.querySelectorAll(".colorloc");
+  floors_buttons.forEach((btn) => btn.classList.remove("map__floor_active"));
   floors_buttons[floorNum - 1].classList.add("map__floor_active");
   updatePlaceholderHeight();
 }
@@ -162,16 +164,18 @@ function updatePlaceholderHeight() {
 }
 
 // Event listener for window resize to update layout
-window.addEventListener('resize', () => {
-  isMobile = window.innerWidth < 768
-  placeholder.querySelectorAll("path").forEach(path => path.classList.remove('highlighted'))
+window.addEventListener("resize", () => {
+  isMobile = window.innerWidth < 768;
+  placeholder
+    .querySelectorAll("path")
+    .forEach((path) => path.classList.remove("highlighted"));
   updatePlaceholderHeight();
   isHighlighted = false;
   removeHighlight();
   hidePopup();
-  const buttons = buttonsWrapper.querySelectorAll('.map__button');
-  buttons.forEach(button => button.classList.remove('map__button_active'));
-  buttons[0].classList.add('map__button_active');
+  const buttons = buttonsWrapper.querySelectorAll(".map__button");
+  buttons.forEach((button) => button.classList.remove("map__button_active"));
+  buttons[0].classList.add("map__button_active");
 });
 
 // Initial call to load floor data and set up the UI
@@ -204,14 +208,14 @@ loadAndDisplayFloors();
 
 // Function to show popup for the hovered element
 // async function showPopup(element) {
-  
+
 //   let newId;
 //   if (element.tagName === 'path') {
 //     newId = element.parentNode.classList[0];
 //   } else {
 //     newId = element.classList[0];
 //   }
-  
+
 //   if (!isThisPopup(newId)) {
 //     updateActiveButton(newId);
 //   }
