@@ -181,6 +181,8 @@
   transition: fill-opacity 0.3s ease;
 }
 
-.colorloc:hover * {
-  fill-opacity: 0.5 !important;
+@media (hover: hover) {
+  .colorloc:hover * {
+    fill-opacity: 0.5 !important;
+  }  
 }

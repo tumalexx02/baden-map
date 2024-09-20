@@ -118,7 +118,7 @@ function highlightLocation(cl) {
   // }
 
   const id = cl.id;
-  const label = labels.querySelector(`#${id}`);
+  const label = labels.querySelector(`#${id}-label`);
   label.classList.add('active');
 }
 
@@ -136,7 +136,7 @@ function removeHighlight(cl) {
   //   });
   // }
   const id = cl.id;
-  const label = labels.querySelector(`#${id}`);
+  const label = labels.querySelector(`#${id}-label`);
   label.classList.remove('active');
 }
 
