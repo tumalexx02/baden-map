@@ -146,6 +146,7 @@
 .map__placeholder > svg {
   width: 100%;
   height: auto;
+  max-height: 550px;
   position: absolute;
   top: 0;
   left: 0;
@@ -160,13 +161,36 @@
 }
 
 .maplabel {
-  opacity: 0;
   transition: 0.3s ease;
   pointer-events: none;
 }
 
-.maplabel.active {
-  opacity: 1;
+.maplabel path {
+  transition: fill 0.3s ease;
+}
+
+.maplabel .maplabel-background {
+  fill: rgb(26,98,162) !important;
+}
+
+.maplabel .maplabel-text-strokes path {
+  stroke: rgb(254,254,254) !important;
+}
+
+.maplabel path:not(path.maplabel-background) {
+  fill: rgb(254,254,254) !important;
+}
+
+.maplabel.active .maplabel-background {
+  fill: rgb(254,254,254) !important;
+}
+
+.maplabel.active .maplabel-text-strokes path {
+  stroke: rgb(26,98,162) !important;
+}
+
+.maplabel.active path:not(path.maplabel-background) {
+  fill: rgb(26,98,162) !important;
 }
 
 #contour {

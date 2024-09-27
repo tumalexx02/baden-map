@@ -151,7 +151,7 @@ function setActiveFloorAndHeight(floorNum) {
   colorlocs = document.querySelectorAll(".colorloc");
   floors_buttons.forEach((btn) => btn.classList.remove("map__floor_active"));
   floors_buttons[floorNum - 1].classList.add("map__floor_active");
-  updatePlaceholderHeight();
+  // updatePlaceholderHeight();
 }
 
 // Function to update the height of the placeholder based on the active SVG
@@ -169,7 +169,7 @@ window.addEventListener("resize", () => {
   placeholder
     .querySelectorAll("path")
     .forEach((path) => path.classList.remove("highlighted"));
-  updatePlaceholderHeight();
+  // updatePlaceholderHeight();
   isHighlighted = false;
   removeHighlight();
   hidePopup();
