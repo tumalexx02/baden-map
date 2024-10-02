@@ -205,8 +205,16 @@
   transition: fill-opacity 0.3s ease;
 }
 
+.pool-color-loc {
+  fill:rgb(109,220,247) !important;
+  fill-opacity:0.4 !important;
+}
+
 @media (hover: hover) {
   .colorloc:hover * {
     fill-opacity: 0.5 !important;
   }  
+  .colorloc:hover .pool-color-loc {
+    fill-opacity: 0.8 !important;
+  }
 }
